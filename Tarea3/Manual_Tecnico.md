@@ -157,45 +157,44 @@ En cada uno de los swich utilizar el comando
 En estas pruebas corroboramos como las pc de la misma vlan si se comunican mientras que las que tienen vlan distinta no tienen comunicacion 
 
 Exito - Error
-![Ping](ping.png)
+![Ping](imagenes/ping.png)
 
 Error
-![Ping](ping2.png)
+![Ping](imagenes/ping2.png)
 
 
 ---
 Vista general de la topografia utilizada
-![Vista General](general.png)
+![Vista General](imagenes/general.png)
 
 ---
 Vlan desde switch0
-![Vlan desde switch0](vlanS0.png)
+![Vlan desde switch0](imagenes/vlanS0.png)
 
 
 ---
 Configuracion vtp del switch0
-![Configuracion vtp del switch0](vtpswitch.png)
+![Configuracion vtp del switch0](imagenes/vtpswitch.png)
 
 
 
 ---
 Configuracion vtp del ADMIN 
-![Configuracion vtp del ADMIN](vtpadmin.png)
+![Configuracion vtp del ADMIN](imagenes/vtpadmin.png)
 
 
 ---
 Configuracion vlan del ADMIN 
-![Configuracion vlan del ADMIN](vlanAdmin.png)
+![Configuracion vlan del ADMIN](imagenes/vlanAdmin.png)
 
 ---
 Configuracion general de MERCA
-![Configuracion de MERCA](MERCA.png)
+![Configuracion de MERCA](imagenes/MERCA.png)
 
 
 ---
 Configuracion general de VENTAS
-![Configuracion de VENTAS](VENTAS.png)
-
+![Configuracion de VENTAS](imagenes/VENTAS.png)
 
 
 
