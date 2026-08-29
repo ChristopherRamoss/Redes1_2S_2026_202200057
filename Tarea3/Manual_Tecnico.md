@@ -1,6 +1,6 @@
 
 
-## CONFIGURACION DE MODO ACCESO 
+## CONFIGURACION DE MODO TRUNK 
 
 - Switch> enable
 - Switch# configure terminal (enter)
@@ -44,7 +44,7 @@
 - Switch#configure terminal (enter)
 - Switch(config)#vtp domain USAC       
 - Switch(config)#vtp password redes
-- Switch(config)#vtp mode trasnparent
+- Switch(config)#vtp mode transparent
 
 ---
 ### Verificar la configuracion vtp
@@ -80,7 +80,12 @@ desde el swich0
 
 ## CONFIGURAR LAS IP 
 
--- PEGAR LA IMAGEN
+En cada una de las pc se establece la direccion IP correspondiente a su vlan es decir
+- vlan 10 = 192.168.10.1x
+- vlan 20 = 192.168.20.2x
+- vlan 30 = 192.168.30.3x
+
+![Configuracion de IP](ip.png)
 
 ## CONFIGURAR VLAN SWITCH - PC
 
@@ -142,3 +147,55 @@ Verificar que esten configuradas las vlan
 - Switch#show vlan brief
 
    - "30   VENTAS                           active    Fa0/2, Fa0/3"
+---
+### GUARDAR LA MEMORIA 
+En cada uno de los swich utilizar el comando
+- Switch# write memory
+---
+# PRUEBAS DE PING
+
+En estas pruebas corroboramos como las pc de la misma vlan si se comunican mientras que las que tienen vlan distinta no tienen comunicacion 
+
+Exito - Error
+![Ping](ping.png)
+
+Error
+![Ping](ping2.png)
+
+
+---
+Vista general de la topografia utilizada
+![Vista General](general.png)
+
+---
+Vlan desde switch0
+![Vlan desde switch0](vlanS0.png)
+
+
+---
+Configuracion vtp del switch0
+![Configuracion vtp del switch0](vtpswitch.png)
+
+
+
+---
+Configuracion vtp del ADMIN 
+![Configuracion vtp del ADMIN](vtpadmin.png)
+
+
+---
+Configuracion vlan del ADMIN 
+![Configuracion vlan del ADMIN](vlanAdmin.png)
+
+---
+Configuracion general de MERCA
+![Configuracion de MERCA](MERCA.png)
+
+
+---
+Configuracion general de VENTAS
+![Configuracion de VENTAS](VENTAS.png)
+
+
+
+
