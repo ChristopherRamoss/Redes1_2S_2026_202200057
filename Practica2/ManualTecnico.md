@@ -1,0 +1,195 @@
+
+
+
+
+| Zona | VLAN | Hosts req. | Criticidad / por qué |
+|------|------|------------|----------------------|
+| Zona 1 — Paseo Cayalá (comercial/gastronómica) | 17 | 60 | Alto tráfico — más tiendas y restaurantes, mayor cantidad de usuarios simultáneos |
+| Zona 2 — Administración (edificio municipal) | 27 | 28 | Crítica — gestión central del complejo |
+| Zona 3 — Seguridad (garitas / CCTV) | 37 | 12 | Crítica aunque pequeña — vigilancia 24/7, no puede perder conectividad |
+| Zona 4 — Residencial (Lirios de Cayalá) | 47 | 50 | Muchos hosts pero no es administración/seguridad/alto-tráfico comercial → criticidad moderada |
+| Zona 5 — Hotelera (AC Marriott) | 57 | 7 | La más pequeña, menor criticidad relativa |
+
+
+
+----
+
+# Swich central o Core
+
+```cisco
+enable
+configure terminal
+hostname SW-CORE-CAYALA
+
+vtp domain 202200057
+vtp password CayalaNet2026
+vtp mode server
+vtp version 2
+
+vlan 17
+ name COMERCIAL
+vlan 27
+ name ADMINISTRACION
+vlan 37
+ name SEGURIDAD
+vlan 47
+ name RESIDENCIAL
+vlan 57
+ name HOTELERA
+vlan 99
+ name NATIVA
+vlan 999
+ name BLACKHOLE
+exit
+
+spanning-tree mode rapid-pvst
+```
+
+## Enrutamiento inter-VLAN
+```cisco
+ip routing
+
+interface vlan 17
+ip address 192.168.10.1 255.255.255.192
+no shutdown
+
+interface vlan 47
+ip address 192.168.10.65 255.255.255.192
+no shutdown
+
+interface vlan 27
+ip address 192.168.10.129 255.255.255.224
+no shutdown
+
+interface vlan 37
+ip address 192.168.10.161 255.255.255.240
+no shutdown
+
+interface vlan 57
+ip address 192.168.10.177 255.255.255.240
+no shutdown
+```
+
+- Red -------- .0   .64   .128   .160 . 176
+- Gateway:--- .1 .65 .129 .161 .177
+- Brodcast----  .63 .127 .159 .175 .191
+
+| VLAN | Máscara | Por qué |
+|------|---------|---------|
+| 17 (60 hosts) | 255.255.255.192 (/26) | bloque de 64 IPs |
+| 47 (50 hosts) | 255.255.255.192 (/26) | bloque de 64 IPs |
+| 27 (28 hosts) | 255.255.255.224 (/27) | bloque de 32 IPs |
+| 37 (12 hosts) | 255.255.255.240 (/28) | bloque de 16 IPs |
+| 57 (7 hosts) | 255.255.255.240 (/28) | bloque de 16 IPs |
+
+
+
+## Configuracion modo Trunk
+```cisco
+enable
+configure terminal
+interface range FastEthernet0/1 - 2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 17,99
+ channel-group 1 mode desirable
+
+
+interface FastEthernet0/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 27,99
+
+interface FastEthernet0/4
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 27,99
+
+interface FastEthernet0/5
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 37,99
+
+interface FastEthernet0/6
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 37,99
+
+interface FastEthernet0/7
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 47,99
+
+interface FastEthernet0/8
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 57,99
+
+
+- Puertos 999
+interface range FastEthernet0/9 - 24
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+
+ --- Verficar ---
+show interfaces trunk
+show etherchannel summary
+```
+
+-
+-
+-
+
+
+
+
+
+
+----
+# Switch 1 - Comercio
+```cisco
+enable
+configure terminal
+hostname SW-Z1
+
+vtp domain 202200057
+vtp password CayalaNet2026
+vtp mode client
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 17 priority 4096
+
+------------------------------------
+
+interface range FastEthernet0/1 - 2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 17,99
+ channel-group 1 mode desirable
+!
+interface range FastEthernet0/3 - 6
+ switchport mode access
+ switchport access vlan 17
+!
+interface range FastEthernet0/7 - 24
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+
+--- Verificar ---
+show vtp status
+show vlan brief
+show interfaces trunk
+show etherchannel summary
+
+
+```

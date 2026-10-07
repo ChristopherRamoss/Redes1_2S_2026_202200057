@@ -382,28 +382,28 @@ end
 
 Se configuró el switch central Switch Core como **Servidor VTP** para centralizar la administración de toda la base de datos de VLANs de la red. Se realizo en el switch central de el area de "Centro de datos" por que es la que esta mas cercana al alcance de los servidores. y puede tener una distribucion adecuada a cada uno de los edificios
 
-![Estado VTP Server](/Proyecto1/Imagenes/Justif_vtp.png)
+![Estado VTP Server](/Imagenes/Justif_vtp.png)
 
 # Justificación del root bridge para cada VLAN.
 Evidentemente Se configuró  al **Switch Core** como el **Root Bridge** principal para todas las VLANs activas de la topología bajo el protocolo **Rapid-PVST** 
 Debido a que este switch para mi topologia es el nucleo de todo.
 
-![Spanning17](/Proyecto1/Imagenes/Spanning_17.png)
+![Spanning17](/Imagenes/Spanning_17.png)
 Con el comando "show spanning-tree vlan 17" el cual tiene su unica salida al switch de corporativo
 
-![Spanning57](/Proyecto1/Imagenes/Spanning_57.png)
+![Spanning57](/Imagenes/Spanning_57.png)
 Con el comando "show spanning-tree vlan 57" que al igual que la vlan 17 tiene su unica salida al switch de corporativo
 
-![Spanning27](/Proyecto1/Imagenes/Spanning_27.png)
+![Spanning27](/Imagenes/Spanning_27.png)
 Con el comando "show spanning-tree vlan 27" el cual tiene 3 salidas mediante los port-channel 1, 2, 3 respectivamente hacia los switch ID_1 ID_2 ID3
 
-![Spanning37](/Proyecto1/Imagenes/Spanning_37.png)
+![Spanning37](/Imagenes/Spanning_37.png)
 Con el comando "show spanning-tree vlan 37" El cual tiene su unica salida hacia el switch del edificio "Planta de produccion"
 
-![Spanning47](/Proyecto1/Imagenes/Spanning_47.png)
+![Spanning47](/Imagenes/Spanning_47.png)
 Con el comando "show spanning-tree vlan 47" El cual tiene dos salidas hacia dos port-channel los cuales serian el po4 y po5 que van a los switch de recurrencia de el area de servidores
 
-![Spanning97](/Proyecto1/Imagenes/Spanning_97.png)
+![Spanning97](/Imagenes/Spanning_97.png)
 Con el comando "show spanning-tree vlan 97" La cual identificamos como vlan nativa presente en todas las salidas de nuestro root bridge
 
 
@@ -412,7 +412,7 @@ En este caso utilice 5 etherchannel
 Los primeros 3 se utilizaron para manejar la alta carga de informacion que requiere el edificio de Investigacion y desarrollo por lo cual ahi usamos po1 po2 y po3. Luego en el area de servidores donde debe haber concurrencia se utilizaron otros dos etherchannel debido a que por ser el area de servidores necesitamos mas capacidad de mover informacion por lo cual se utilizaron po4 y po5 respectivamente para cada switch.
 
 
-![Etherchannel](/Proyecto1/Imagenes/Etherchannel.png)
+![Etherchannel](/Imagenes/Etherchannel.png)
 
 ---
 
@@ -424,15 +424,15 @@ Los primeros 3 se utilizaron para manejar la alta carga de informacion que requi
 
 
 - show etherchannel summary 
-![Etherchannel](/Proyecto1/Imagenes/Etherchannel.png)
+![Etherchannel](/Imagenes/Etherchannel.png)
 
 
 
 - show interfaces trunk 
-![InterfacesTrunk](/Proyecto1/Imagenes/InterfacesTrunk.png)
+![InterfacesTrunk](/Imagenes/InterfacesTrunk.png)
 
 - show vtp status (Servidor)
-![vtpstatus](/Proyecto1/Imagenes/vtp_status.png)
+![vtpstatus](/Imagenes/vtp_status.png)
 
 
 
@@ -464,23 +464,23 @@ Ahora bien para aquellas conexiones que son desde los swiches de distribucion ha
 
 ---
 Topologia con etiquetas de conexion
-![Etiquetado](/Proyecto1/Imagenes/Etiquetado.png)
+![Etiquetado](/Imagenes/Etiquetado.png)
 
 
 # Tipologia completa y por area
 Tipologia limpia (Sin etiquetas)
-![Etiquetado](/Proyecto1/Imagenes/Topologia.png)
+![Etiquetado](/Imagenes/Topologia.png)
 ---
 Centro de datos
-![CentroDatos](/Proyecto1/Imagenes/CentroDatos.png)
+![CentroDatos](/Imagenes/CentroDatos.png)
 ---
 Centro de Investigacion y Desarrollo
-![ID](/Proyecto1/Imagenes/Centro_ID.png)
+![ID](/Imagenes/Centro_ID.png)
 ---
 Edificio Corporativo
-![Corporativo](/Proyecto1/Imagenes/Corporativo.png)
+![Corporativo](/Imagenes/Corporativo.png)
 ---
 planta de produccion
-![Corporativo](/Proyecto1/Imagenes/Produccion.png)
+![Corporativo](/Imagenes/Produccion.png)
 ---
 
