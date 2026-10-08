@@ -193,3 +193,126 @@ show etherchannel summary
 
 
 ```
+
+
+# Switch Zona 2 Administracion
+
+```cisco
+enable
+configure terminal
+hostname SW-Z2
+
+vtp domain 202200057
+vtp password CayalaNet2026
+vtp mode client
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 27 priority 4096
+
+interface range FastEthernet0/1 - 2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 27,99
+
+interface range FastEthernet0/3 - 6
+ switchport mode access
+ switchport access vlan 27
+
+interface range FastEthernet0/7 - 24
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+```
+
+
+# Switch Zona 3 Seguridad
+
+```cisco
+enable
+configure terminal
+hostname SW-Z3
+!
+vtp domain 202200057
+vtp password CayalaNet2026
+vtp mode client
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 37 priority 4096
+!
+interface range FastEthernet0/1 - 2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 37,99
+!
+interface range FastEthernet0/3 - 6
+ switchport mode access
+ switchport access vlan 37
+!
+interface range FastEthernet0/7 - 24
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+```
+
+
+# Swich Zona 4 Residencial
+```cisco
+enable
+configure terminal
+hostname SW-Z4
+!
+vtp domain 202200057
+vtp password CayalaNet2026
+vtp mode client
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 47 priority 4096
+!
+interface FastEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 47,99
+!
+interface range FastEthernet0/2 - 4
+ switchport mode access
+ switchport access vlan 47
+!
+interface range FastEthernet0/5 - 24
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+ ```
+
+
+# Switch Zona 5 Hotelera 
+ ```
+enable
+configure terminal
+hostname SW-Z5
+!
+vtp domain 202200057
+vtp password CayalaNet2026
+vtp mode client
+!
+spanning-tree mode rapid-pvst
+spanning-tree vlan 57 priority 4096
+!
+interface FastEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 57,99
+!
+interface range FastEthernet0/2 - 3
+ switchport mode access
+ switchport access vlan 57
+!
+interface range FastEthernet0/4 - 24
+ switchport mode access
+ switchport access vlan 999
+ shutdown
+  ```
+  
