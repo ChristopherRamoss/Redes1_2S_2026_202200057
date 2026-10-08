@@ -175,11 +175,11 @@ interface range FastEthernet0/1 - 2
  switchport trunk native vlan 99
  switchport trunk allowed vlan 17,99
  channel-group 1 mode desirable
-!
+
 interface range FastEthernet0/3 - 6
  switchport mode access
  switchport access vlan 17
-!
+
 interface range FastEthernet0/7 - 24
  switchport mode access
  switchport access vlan 999
@@ -232,24 +232,24 @@ interface range FastEthernet0/7 - 24
 enable
 configure terminal
 hostname SW-Z3
-!
+
 vtp domain 202200057
 vtp password CayalaNet2026
 vtp mode client
-!
+
 spanning-tree mode rapid-pvst
 spanning-tree vlan 37 priority 4096
-!
+
 interface range FastEthernet0/1 - 2
  switchport trunk encapsulation dot1q
  switchport mode trunk
  switchport trunk native vlan 99
  switchport trunk allowed vlan 37,99
-!
+
 interface range FastEthernet0/3 - 6
  switchport mode access
  switchport access vlan 37
-!
+
 interface range FastEthernet0/7 - 24
  switchport mode access
  switchport access vlan 999
@@ -292,27 +292,57 @@ interface range FastEthernet0/5 - 24
 enable
 configure terminal
 hostname SW-Z5
-!
+
 vtp domain 202200057
 vtp password CayalaNet2026
 vtp mode client
-!
+
 spanning-tree mode rapid-pvst
 spanning-tree vlan 57 priority 4096
-!
+
 interface FastEthernet0/1
  switchport trunk encapsulation dot1q
  switchport mode trunk
  switchport trunk native vlan 99
  switchport trunk allowed vlan 57,99
-!
+
 interface range FastEthernet0/2 - 3
  switchport mode access
  switchport access vlan 57
-!
+
 interface range FastEthernet0/4 - 24
  switchport mode access
  switchport access vlan 999
  shutdown
   ```
   
+
+# Asignacion de IPs
+
+| PC | Zona | IP | Máscara | Gateway |
+|----|------|----|---------|---------|
+| PC1 | Comercio (17) | 192.168.10.2 | 255.255.255.192 | 192.168.10.1 |
+| PC2 | Comercio (17) | 192.168.10.3 | 255.255.255.192 | 192.168.10.1 |
+| PC3 | Comercio (17) | 192.168.10.4 | 255.255.255.192 | 192.168.10.1 |
+| PC14 | Comercio (17) | 192.168.10.5 | 255.255.255.192 | 192.168.10.1 |
+| PC4 | Admin (27) | 192.168.10.130 | 255.255.255.224 | 192.168.10.129 |
+| PC5 | Admin (27) | 192.168.10.131 | 255.255.255.224 | 192.168.10.129 |
+| PC6 | Admin (27) | 192.168.10.132 | 255.255.255.224 | 192.168.10.129 |
+| PC7 | Seguridad (37) | 192.168.10.162 | 255.255.255.240 | 192.168.10.161 |
+| PC8 | Seguridad (37) | 192.168.10.163 | 255.255.255.240 | 192.168.10.161 |
+| PC9 | Residencial (47) | 192.168.10.66 | 255.255.255.192 | 192.168.10.65 |
+| PC10 | Residencial (47) | 192.168.10.67 | 255.255.255.192 | 192.168.10.65 |
+| PC11 | Residencial (47) | 192.168.10.68 | 255.255.255.192 | 192.168.10.65 |
+| PC12 | Hotelera (57) | 192.168.10.178 | 255.255.255.240 | 192.168.10.177 |
+| PC13 | Hotelera (57) | 192.168.10.179 | 255.255.255.240 | 192.168.10.177 |
+
+
+# Pruebas de ping
+
+| Desde | Comando | Pasa por |
+|-------|---------|----------|
+| PC4 (Admin) | ping 192.168.10.2 (PC1, Comercio) | SVI 27 → Core → SVI 17 |
+| PC4 (Admin) | ping 192.168.10.162 (PC7, Seguridad) | SVI 27 → Core → SVI 37 |
+| PC4 (Admin) | ping 192.168.10.66 (PC9, Residencial) | SVI 27 → Core → SVI 47 |
+| PC4 (Admin) | ping 192.168.10.178 (PC12, Hotelera) | SVI 27 → Core → SVI 57 |
+| PC7 (Seguridad) | ping 192.168.10.130 (PC4, Admin) | al revés, para confirmar ida y vuelta |
