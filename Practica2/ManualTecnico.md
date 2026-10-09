@@ -346,3 +346,80 @@ interface range FastEthernet0/4 - 24
 | PC4 (Admin) | ping 192.168.10.66 (PC9, Residencial) | SVI 27 → Core → SVI 47 |
 | PC4 (Admin) | ping 192.168.10.178 (PC12, Hotelera) | SVI 27 → Core → SVI 57 |
 | PC7 (Seguridad) | ping 192.168.10.130 (PC4, Admin) | al revés, para confirmar ida y vuelta |
+
+
+# Pruebas
+
+Existe etherchannel (SW-Z1 o Core)
+- show etherchannel summary
+
+VTP 
+- `show vtp status` (Core: modo Server - zonas: modo Client)
+- `show vlan brief` (En cada zona verifica las vlans)
+
+TRUNK
+- `show interfaces trunk` (Las Vlans de cada zona y nativa)
+
+Spanning Tree / root bridge
+- `show spanning-tree vlan 17` (SW-Z1 debe ser root)
+- `show spanning-tree vlan 27` y `37` (en el Core: un puerto Root/FWD y el otro Altn/BLK)
+
+Blackhole
+- `show vlan brief` (puertos sin uso en la VLAN 999)
+- `show interfaces status` (puertos sin uso en `disabled`)
+
+Conectividad
+- `ping` entre PCs de la misma zona
+- `ping` entre PCs de zonas distintas
+
+---
+# Estándar de cableado
+
+Se utilizó el estándar **TIA/EIA-568B** para todo el cableado de cobre (UTP).
+
+- **Straight-through (directo):** ambos extremos con el orden T568B.
+- **Crossover (cruzado):** un extremo en T568B y el otro en T568A (se intercambian los pares naranja y verde).
+
+Orden de colores T568B: blanco/naranja, naranja, blanco/verde, azul, blanco/azul, verde, blanco/café, café.
+
+## Regla aplicada
+
+| Tipo de enlace | Cable | Justificación |
+|---|---|---|
+| Switch ↔ PC | Straight-through | Dispositivos de distinto tipo: la PC transmite por los pines 1-2 y el switch recibe por ellos. |
+| Switch ↔ Switch | Crossover | Dispositivos del mismo tipo: ambos transmiten por los mismos pines, por lo que hay que cruzar los pares. |
+
+## Cableado de la topología
+
+| Enlace | Cantidad | Cable |
+|---|---|---|
+| Core ↔ SW-Z1 (Zona 1) | 2 | Crossover |
+| Core ↔ SW-Z2 (Zona 2) | 2 | Crossover |
+| Core ↔ SW-Z3 (Zona 3) | 2 | Crossover |
+| Core ↔ SW-Z4 (Zona 4) | 1 | Crossover |
+| Core ↔ SW-Z5 (Zona 5) | 1 | Crossover |
+| SW-Zx ↔ PCs | 14 | Straight-through |
+
+Total: 8 cables crossover y 14 straight-through
+
+# Imagenes
+
+### Topologia general
+![Topología de la red](Topologia.png)
+
+### Trunk desde Switch central
+![Topología de la red](Trunk.png)
+
+### Uso del BlackHole
+![Topología de la red](Blackhole.png)
+
+### Prueba de ping entre zonas (Gateway)
+prueba Z2 hacia Z1
+![Topología de la red](PingGateway.png)
+
+### Ping en la misma zona
+![Topología de la red](PingZ2.png)
+
+Informacion general del cableado por zona 
+### Topologia general
+![Topología de la red](Cableado.png)
